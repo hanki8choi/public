@@ -1,21 +1,28 @@
 
-참조 사이트
-https://nolboo.kim/blog/2013/10/06/github-for-beginner/
-https://blog.appkr.dev/learn-n-think/comparing-workflows/
-https://medium.com/@psychet_learn/git-사용법-3장-github-이용하기-f53e765844e3
+기본 참조 사이트
+  https://nolboo.kim/blog/2013/10/06/github-for-beginner/
+  https://blog.appkr.dev/learn-n-think/comparing-workflows/
+  https://medium.com/@psychet_learn/git-사용법-3장-github-이용하기-f53e765844e3
 
-워크플로우
-https://blog.appkr.dev/learn-n-think/comparing-workflows/
+워크플로우 사이트
+  https://blog.appkr.dev/learn-n-think/comparing-workflows/
+
+default push
+  https://donggov.tistory.com/9
+
+[init]
+ git clone
+ git config --global push.default matching
 
 [local]
-git status
-git add . 
-git rm .
-git commit -m “” 
+ git status
+ git add . 
+ git rm .
+ git commit -m “” 
 
 [remote]
-git remote -v
-git push
+ git remote -v
+ git push
 
 
 
