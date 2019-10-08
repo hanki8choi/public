@@ -15,7 +15,8 @@ default push
  git config --global push.default matching
  git config --global user.name "이름"				//local용
  git config --global user.email 이메일@webisfree.com	//local용
- git config credential.helper store
+ git config credential.helper store						// remote user password 입력 필요없음
+ git config --global credential.helper 'cache --timeout 2592000' //한달간 remote user password 입력필요없음
 
 
 [local]
