@@ -1,62 +1,56 @@
 # -*- coding:utf-8 -*-
 from selenium import webdriver
 from bs4 import BeautifulSoup
+import time
+
+# note
+# 1. string 과 get_text() 의 차이는?
+# 2. soup.prettify()
 
 driver = webdriver.Chrome()
 
-driver.get('https://www.wishket.com/project/#')
-driver.implicitly_wait(3)
+def page_analyzer():
+    soup = BeautifulSoup(driver.page_source, 'html.parser');
 
-soup = BeautifulSoup(driver.page_source, 'html.parser');
-
-#show source
-#print( soup.prettify().encode('utf-8', errors='ignore') )
-#exit()
-
-section = soup.find_all('section', class_='project-unit')
-
-#string 과 get_text() 의 차이는?
-
-for sec in section:
-    #print(sec.div.h4.string )
-    heading = sec.find('div', class_='project-unit-heading')
-    strName = heading.find('a').get_text().strip()
+    #print(soup)
+    sections = soup.find_all('section', class_='project-unit')
+    print( len(sections) )
+    for sec in sections:
+        heading = sec.find('div', class_='project-unit-heading')
+        strName = heading.find('a').get_text().strip()
     
-    body = sec.find('div', class_='project-unit-body')
-    basic_info = body.find('div', class_='project-unit-basic-info')
+        body = sec.find('div', class_='project-unit-body')
+        basic_info = body.find('div', class_='project-unit-basic-info')
 
-    #print( basic_info.prettify() )
+        price = basic_info.find('span')
+        strPrice = price.get_text().replace(u'예상금액','').replace(u'원','').replace(',','').strip()
+        duration = price.findNext('span')
+        strDuration = duration.get_text().replace(u'예상기간','').replace(u'일','').strip()
+        date_recruit = duration.findNext('span')
+        strDateRecruit = date_recruit.get_text().replace(u'등록일자','').strip()
+        print( "%s  :  '%s' won   '%s' days   '%s'" % ( strName, strPrice, strDuration, strDateRecruit ) )
 
-    price = basic_info.find('span')
-    strPrice = price.get_text().replace(u'예상금액','').replace(u'원','').replace(',','').strip()
-    duration = price.findNext('span')
-    strDuration = duration.get_text().replace(u'예상기간','').replace(u'일','').strip()
-    date_recruit = duration.findNext('span')
-    strDateRecruit = date_recruit.get_text().replace(u'등록일자','').strip()
-    print( "%s  :  '%s' won   '%s' days   '%s'" % ( strName, strPrice, strDuration, strDateRecruit ) )
+def page_loop():
+    # next page click
+    while True:
+        try:
+            nextBtn = driver.find_element_by_class_name('next')
+            # just for implicit waits
+            driver.find_element_by_class_name('project-unit-heading')
+            page_analyzer()
+            nextBtn.click()
+        except:
+            print ( 'except' )
+            driver.close();
 
+if __name__== "__main__":
+    driver.get('https://www.wishket.com/project/#')
+    driver.implicitly_wait(10)
 
-    #body = heading.findNext('div'
-    #print( head.prettify() )
-    #print( head.h4.string )
-    #print( sec.div.find_next_siblings('div') )
-    #body = sec.div.find_next_siblings('div')
-    #print( body.prettify() )
-    #body2 = body.find_next_siblings('div')
-    #print( body2 )
-    #new_div = section.div.next_sibling
-    #print(new_div)
+    #개발 filter click
+    driver.find_element_by_id('dev').click()
 
-
-
-#for num in range(len(section)):
-#    print( num )
-#    print( section[num].get_text())
-
-#elem = driver.find_element_by_class_name("partners-unit")
-#elem = driver.find_element_by_class_name("content-inner")
-
-#print(elem)
+    page_loop()
 
 driver.close();
 
