@@ -9,12 +9,33 @@ import time
 
 driver = webdriver.Chrome()
 
+def parse_skill_tag(sec):
+    skills = sec.find_all('span', class_='skills-tag')
+    for sk in skills:
+        print( sk.get_text() )
+
+def parse_cat(sec):
+    print( sec.find('span', class_='project-subcategory').get_text() )
+
+def parse_applied(sec):
+    try :
+        text = sec.find('span', class_='applied').get_text()
+        strApplied = text.replace(u'총','').replace(u'명','').replace(u'지원','').strip()
+    except:
+        # 지원자 없음.
+        strApplied = 0
+    finally:
+        print( strApplied  )
+
+def parse_desc(sec):
+    text = sec.find('div', class_='project-unit-desc').p.get_text()
+    print( text )
+
 def page_analyzer():
     soup = BeautifulSoup(driver.page_source, 'html.parser');
 
     #print(soup)
     sections = soup.find_all('section', class_='project-unit')
-    print( len(sections) )
     for sec in sections:
         heading = sec.find('div', class_='project-unit-heading')
         strName = heading.find('a').get_text().strip()
@@ -28,7 +49,15 @@ def page_analyzer():
         strDuration = duration.get_text().replace(u'예상기간','').replace(u'일','').strip()
         date_recruit = duration.findNext('span')
         strDateRecruit = date_recruit.get_text().replace(u'등록일자','').strip()
+
+
         print( "%s  :  '%s' won   '%s' days   '%s'" % ( strName, strPrice, strDuration, strDateRecruit ) )
+
+        parse_skill_tag(sec)
+        parse_cat(sec)
+        parse_applied(sec)
+        parse_desc(sec)
+
 
 def page_loop():
     # next page click
