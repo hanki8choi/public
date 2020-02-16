@@ -31,3 +31,10 @@ for i in range(len):
     close = objStockChart.GetDataValue(4, i)
     vol = objStockChart.GetDataValue(5, i)
     print (day, open, high, low, close, vol)
+
+
+#날짜 시가 고가 저가 종가 거래량
+#빼기빼기==============================================-
+#20200214 60900 61900 60200 61800 13276067
+#20200213 61200 61600 60500 60700 18449775
+#20200212 60300 60700 59700 60500 12904207

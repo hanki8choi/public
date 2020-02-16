@@ -28,3 +28,8 @@ for i, code in enumerate(codeList2):
     print(i, code, secondCode, stdPrice, name)
 
 print("거래소 + 코스닥 종목코드 " ,len(codeList) + len(codeList2))
+
+
+# 거래소 종목코드 1565
+# 0 A000020 1 7580 동화약품
+# 1 A000040 1 250 KR모터스
