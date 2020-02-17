@@ -8,7 +8,7 @@ def ReqeustData(obj):
     # 통신 결과 확인
     rqStatus = obj.GetDibStatus()
     rqRet = obj.GetDibMsg1()
-    print("통신상태", rqStatus, rqRet)
+    #print("통신상태", rqStatus, rqRet)
     if rqStatus != 0:
         return False
 
@@ -22,7 +22,7 @@ def ReqeustData(obj):
         close = obj.GetDataValue(4, i)  # 종가
         diff = obj.GetDataValue(5, i)  # 종가
         vol = obj.GetDataValue(6, i)  # 종가
-        print(date, open, high, low, close, diff, vol)
+        print(date, '\t', open, '\t', high, '\t', low, '\t', close, '\t', diff, '\t', vol)
 
     return True
 
@@ -36,7 +36,7 @@ if (bConnect == 0):
 
 # 일자별 object 구하기
 objStockWeek = win32com.client.Dispatch("DsCbo1.StockWeek")
-objStockWeek.SetInputValue(0, 'A005930')  # 종목 코드 - 삼성전자
+objStockWeek.SetInputValue(0, 'A229200')  # 종목 코드 - KODEX 코스다 150
 
 # 최초 데이터 요청
 ret = ReqeustData(objStockWeek)
@@ -45,11 +45,11 @@ if ret == False:
 
 # 연속 데이터 요청
 # 예제는 5번만 연속 통신 하도록 함.
-NextCount = 1
+#NextCount = 1
 while objStockWeek.Continue:  # 연속 조회처리
-    NextCount += 1;
-    if (NextCount > 5):
-        break
+    #NextCount += 1;
+    #if (NextCount > 5):
+    #    break
     ret = ReqeustData(objStockWeek)
     if ret == False:
         exit()
